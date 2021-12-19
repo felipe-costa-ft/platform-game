@@ -10,6 +10,15 @@ class Game extends Phaser.Scene {
       frameHeight: 16,
     });
 
+    this.load.spritesheet(
+      "entities-1-sheet",
+      "assets/tilesets/entities-1.png",
+      {
+        frameWidth: 16,
+        frameHeight: 16,
+      }
+    );
+
     this.load.spritesheet("hero-idle-sheet", "assets/hero/idle.png", {
       frameWidth: 32,
       frameHeight: 32,
@@ -85,9 +94,17 @@ class Game extends Phaser.Scene {
       "terrain-1",
       "terrain-1-sheet"
     );
+    const entitiesTiles = this.map.addTilesetImage(
+      "entities-1",
+      "entities-1-sheet"
+    );
 
     console.log(this.map.widthInPixels);
     const terrainLayer = this.map.createStaticLayer("terrain", terrainTiles);
+    const entitiesLayer = this.map.createStaticLayer(
+      "entities-1",
+      entitiesTiles
+    );
 
     terrainLayer.setCollision(
       [
