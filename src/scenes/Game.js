@@ -47,6 +47,8 @@ class Game extends Phaser.Scene {
       frameWidth: 32,
       frameHeight: 32,
     });
+
+    this.load.audio("jump", "assets/sound-effects/jump.wav");
   }
 
   create() {
@@ -76,6 +78,8 @@ class Game extends Phaser.Scene {
       frames: this.anims.generateFrameNumbers("hero-falling-sheet"),
     });
 
+    this.jumpSound = this.sound.add("jump", { loop: false });
+
     this.addMap();
     this.addHero();
 
@@ -95,6 +99,10 @@ class Game extends Phaser.Scene {
       this.hero,
       this.map.getLayer("terrain").tilemapLayer
     );
+
+    this.hero.on("jump", () => {
+      this.jumpSound.play();
+    });
   }
 
   addMap() {

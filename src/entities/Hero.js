@@ -33,6 +33,7 @@ class Hero extends Phaser.GameObjects.Sprite {
       ],
       methods: {
         onJump: () => {
+          this.emit("jump");
           this.body.setVelocityY(-400);
         },
       },
