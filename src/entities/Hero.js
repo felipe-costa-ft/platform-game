@@ -8,7 +8,7 @@ class Hero extends Phaser.GameObjects.Sprite {
     scene.add.existing(this);
     scene.physics.add.existing(this);
 
-    this.body.setSize(14, 14);
+    this.body.setSize(14, 15);
     this.body.setOffset(10, 16);
     this.body.setMaxVelocity(250, 400);
     this.body.setDragX(750);
