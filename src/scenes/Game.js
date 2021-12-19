@@ -3,6 +3,13 @@ import Hero from "../entities/Hero";
 
 class Game extends Phaser.Scene {
   preload() {
+    this.load.tilemapTiledJSON("level-1", "assets/tilemaps/level-1.json");
+
+    this.load.spritesheet("terrain-1-sheet", "assets/tilesets/terrain-1.png", {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+
     this.load.spritesheet("hero-idle-sheet", "assets/hero/idle.png", {
       frameWidth: 32,
       frameHeight: 32,
@@ -51,10 +58,61 @@ class Game extends Phaser.Scene {
       frames: this.anims.generateFrameNumbers("hero-falling-sheet"),
     });
 
-    this.hero = new Hero(this, 250, 160);
+    this.addMap();
+    this.addHero();
+
+    this.cameras.main.setBounds(
+      0,
+      0,
+      this.map.widthInPixels,
+      this.map.heightInPixels
+    );
   }
 
-  update(time, delta) {}
+  addHero() {
+    this.hero = new Hero(this, 250, 30);
+    this.cameras.main.startFollow(this.hero);
+
+    const terrainCollider = this.physics.add.collider(
+      this.hero,
+      this.map.getLayer("terrain").tilemapLayer
+    );
+  }
+
+  addMap() {
+    this.map = this.make.tilemap({ key: "level-1" });
+    const terrainTiles = this.map.addTilesetImage(
+      "terrain-1",
+      "terrain-1-sheet"
+    );
+
+    console.log(this.map.widthInPixels);
+    const terrainLayer = this.map.createStaticLayer("terrain", terrainTiles);
+
+    terrainLayer.setCollision(
+      [
+        21, 22, 23, 38, 39, 40, 53, 54, 55, 56, 57, 58, 59, 70, 71, 72, 73, 74,
+        75, 76, 89, 90, 91, 106, 107, 108, 140, 29, 46, 61, 62, 63, 64, 65, 80,
+        97, 67,
+      ],
+      true
+    );
+
+    this.physics.world.setBoundsCollision(true, true, false, true);
+    this.physics.world.setBounds(
+      0,
+      0,
+      this.map.widthInPixels,
+      this.map.heightInPixels
+    );
+  }
+
+  update(time, delta) {
+    const cameraBotton = this.cameras.main.getWorldPoint(
+      0,
+      this.cameras.main.height
+    ).y;
+  }
 }
 
 export default Game;

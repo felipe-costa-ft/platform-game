@@ -6,7 +6,7 @@ export default {
   backgroundColor: "#50bbff",
   scale: {
     width: 512,
-    height: 320,
+    height: 160,
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
