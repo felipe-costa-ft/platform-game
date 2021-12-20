@@ -59,7 +59,7 @@ class Hero extends Phaser.GameObjects.Sprite {
         { name: "idle", from: ["falling", "running"], to: "idle" },
         { name: "run", from: ["idle", "falling"], to: "running" },
         { name: "jump", from: ["running", "idle"], to: "jumping" },
-        { name: "fall", from: ["idle", "jumping"], to: "falling" },
+        { name: "fall", from: ["idle", "jumping", "running"], to: "falling" },
       ],
       methods: {
         onEnterState: (lifecycle) => {
