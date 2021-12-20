@@ -48,6 +48,8 @@ class Game extends Phaser.Scene {
       frameHeight: 32,
     });
 
+    this.load.audio("grasslands", ["assets/music/grasslands.mp3"]);
+
     this.load.audio("jump", "assets/sound-effects/jump.wav");
   }
 
@@ -79,6 +81,9 @@ class Game extends Phaser.Scene {
     });
 
     this.jumpSound = this.sound.add("jump", { loop: false });
+
+    this.sceneMusic = this.sound.add("grasslands", { loop: true });
+    this.sceneMusic.play();
 
     this.addMap();
     this.addHero();
