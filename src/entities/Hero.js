@@ -8,9 +8,9 @@ class Hero extends Phaser.GameObjects.Sprite {
     scene.add.existing(this);
     scene.physics.add.existing(this);
 
-    this.body.setSize(14, 15);
-    this.body.setOffset(10, 16);
-    this.body.setMaxVelocity(250, 400);
+    this.body.setSize(9, 13);
+    this.body.setOffset(12, 18);
+    this.body.setMaxVelocity(180, 400);
     this.body.setDragX(750);
     this.body.setCollideWorldBounds(true);
 
@@ -34,7 +34,7 @@ class Hero extends Phaser.GameObjects.Sprite {
       methods: {
         onJump: () => {
           this.emit("jump");
-          this.body.setVelocityY(-400);
+          this.body.setVelocityY(-320);
         },
       },
     });
