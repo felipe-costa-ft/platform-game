@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import Hero from "../entities/Hero";
+import Coin from "../entities/Coin";
 
 class Game extends Phaser.Scene {
   preload() {
@@ -48,9 +49,15 @@ class Game extends Phaser.Scene {
       frameHeight: 32,
     });
 
+    this.load.spritesheet("coin-sheet", "assets/pick-ups/coin.png", {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+
     this.load.audio("grasslands", ["assets/music/grasslands.mp3"]);
 
     this.load.audio("jump", "assets/sound-effects/jump.wav");
+    this.load.audio("pickup_coin", "assets/sound-effects/pickup_coin.wav");
   }
 
   create() {
@@ -80,13 +87,22 @@ class Game extends Phaser.Scene {
       frames: this.anims.generateFrameNumbers("hero-falling-sheet"),
     });
 
+    this.anims.create({
+      key: "coin",
+      frames: this.anims.generateFrameNumbers("coin-sheet"),
+      frameRate: 4,
+      repeat: -1,
+    });
+
     this.jumpSound = this.sound.add("jump", { loop: false });
+    this.pickupCoinSound = this.sound.add("pickup_coin", { loop: false });
 
     this.sceneMusic = this.sound.add("grasslands", { loop: true });
     this.sceneMusic.play();
 
     this.addMap();
     this.addHero();
+    this.addCoin();
 
     this.cameras.main.setBounds(
       0,
@@ -94,6 +110,18 @@ class Game extends Phaser.Scene {
       this.map.widthInPixels,
       this.map.heightInPixels
     );
+  }
+
+  addCoin() {
+    this.coinGroup = this.physics.add.group({
+      immovable: true,
+      allowGravity: false,
+    });
+
+    this.map.getObjectLayer("coins").objects.forEach((coin) => {
+      console.log(coin);
+      new Coin(this, coin.x, coin.y, this.pickupCoinSound);
+    });
   }
 
   addHero() {
@@ -126,7 +154,6 @@ class Game extends Phaser.Scene {
       "background-1-sheet"
     );
 
-    console.log(this.map.widthInPixels);
     const backgroundLayer = this.map.createStaticLayer(
       "background",
       backgroundTiles

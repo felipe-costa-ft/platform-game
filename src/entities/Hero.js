@@ -63,7 +63,6 @@ class Hero extends Phaser.GameObjects.Sprite {
       ],
       methods: {
         onEnterState: (lifecycle) => {
-          console.log(lifecycle);
           this.anims.play("hero-" + lifecycle.to);
         },
       },
