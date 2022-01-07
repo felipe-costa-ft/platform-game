@@ -3,6 +3,10 @@ import Hero from "../entities/Hero";
 import Coin from "../entities/Coin";
 
 class Game extends Phaser.Scene {
+  constructor() {
+    super("GameScene");
+  }
+
   preload() {
     this.load.tilemapTiledJSON("level-1", "assets/tilemaps/level-1.json");
 
@@ -119,7 +123,6 @@ class Game extends Phaser.Scene {
     });
 
     this.map.getObjectLayer("coins").objects.forEach((coin) => {
-      console.log(coin);
       new Coin(this, coin.x, coin.y, this.pickupCoinSound);
     });
   }

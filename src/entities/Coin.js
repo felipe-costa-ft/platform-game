@@ -15,6 +15,7 @@ class Coin extends Phaser.GameObjects.Sprite {
     scene.physics.add.overlap(scene.hero, this, () => {
       this.get();
       sound.play();
+      scene.events.emit("addScore");
     });
   }
 
