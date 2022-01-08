@@ -171,7 +171,6 @@ class Game extends Phaser.Scene {
     });
 
     this.map.getObjectLayer("enemies").objects.forEach((object) => {
-      console.log(object);
       if (object.type === "enemy") {
         const enemy = new Enemy(this, object.x, object.y);
       }

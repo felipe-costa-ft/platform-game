@@ -23,6 +23,10 @@ class Enemy extends Phaser.GameObjects.Sprite {
     scene.physics.add.existing(this);
     this.body.setVelocityX(-30);
     this.anims.play("enemy-running");
+
+    scene.physics.add.overlap(scene.hero, this, () => {
+      scene.events.emit("hurt");
+    });
   }
 }
 
