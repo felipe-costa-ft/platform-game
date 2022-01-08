@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import Hero from "../entities/Hero";
 import Coin from "../entities/Coin";
+import Enemy from "../entities/Enemy";
 
 class Game extends Phaser.Scene {
   constructor() {
@@ -8,6 +9,7 @@ class Game extends Phaser.Scene {
   }
 
   preload() {
+    // Map assets
     this.load.tilemapTiledJSON("level-1", "assets/tilemaps/level-1.json");
 
     this.load.spritesheet("terrain-1-sheet", "assets/tilesets/terrain-1.png", {
@@ -33,6 +35,7 @@ class Game extends Phaser.Scene {
       }
     );
 
+    // Hero assets
     this.load.spritesheet("hero-idle-sheet", "assets/hero/idle.png", {
       frameWidth: 32,
       frameHeight: 32,
@@ -53,11 +56,19 @@ class Game extends Phaser.Scene {
       frameHeight: 32,
     });
 
+    // Enemy aseets
+    this.load.spritesheet("enemy-standing-sheet", "assets/enemy/standing.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+
+    // Pickups assets
     this.load.spritesheet("coin-sheet", "assets/pick-ups/coin.png", {
       frameWidth: 16,
       frameHeight: 16,
     });
 
+    // Sounds
     this.load.audio("grasslands", ["assets/music/grasslands.mp3"]);
 
     this.load.audio("jump", "assets/sound-effects/jump.wav");
@@ -107,6 +118,7 @@ class Game extends Phaser.Scene {
     this.addMap();
     this.addHero();
     this.addCoin();
+    this.addEnemies();
 
     this.cameras.main.setBounds(
       0,
@@ -117,11 +129,6 @@ class Game extends Phaser.Scene {
   }
 
   addCoin() {
-    this.coinGroup = this.physics.add.group({
-      immovable: true,
-      allowGravity: false,
-    });
-
     this.map.getObjectLayer("coins").objects.forEach((coin) => {
       new Coin(this, coin.x, coin.y, this.pickupCoinSound);
     });
@@ -138,6 +145,13 @@ class Game extends Phaser.Scene {
 
     this.hero.on("jump", () => {
       this.jumpSound.play();
+    });
+  }
+
+  addEnemies() {
+    this.map.getObjectLayer("enemies").objects.forEach((enemy) => {
+      console.log(enemy);
+      new Enemy(this, enemy.x, enemy.y);
     });
   }
 

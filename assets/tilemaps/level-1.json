@@ -46,6 +46,101 @@
         }, 
         {
          "draworder":"topdown",
+         "id":5,
+         "name":"enemies",
+         "objects":[
+                {
+                 "gid":549,
+                 "height":16,
+                 "id":71,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":432,
+                 "y":128
+                }, 
+                {
+                 "gid":549,
+                 "height":16,
+                 "id":72,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":592,
+                 "y":192
+                }, 
+                {
+                 "gid":549,
+                 "height":16,
+                 "id":73,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":672,
+                 "y":192
+                }, 
+                {
+                 "gid":549,
+                 "height":16,
+                 "id":74,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":736,
+                 "y":192
+                }, 
+                {
+                 "gid":549,
+                 "height":16,
+                 "id":75,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":992,
+                 "y":192
+                }, 
+                {
+                 "gid":549,
+                 "height":16,
+                 "id":76,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":224,
+                 "y":160
+                }, 
+                {
+                 "gid":549,
+                 "height":16,
+                 "id":77,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":112,
+                 "y":192
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "draworder":"topdown",
          "id":4,
          "name":"coins",
          "objects":[
@@ -739,8 +834,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":5,
- "nextobjectid":71,
+ "nextlayerid":6,
+ "nextobjectid":78,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.7.2",
@@ -795,6 +890,19 @@
          "name":"coin",
          "spacing":0,
          "tilecount":4,
+         "tileheight":16,
+         "tilewidth":16
+        }, 
+        {
+         "columns":1,
+         "firstgid":549,
+         "image":"..\/enemy\/standing.png",
+         "imageheight":16,
+         "imagewidth":16,
+         "margin":0,
+         "name":"enemy",
+         "spacing":0,
+         "tilecount":1,
          "tileheight":16,
          "tilewidth":16
         }],
