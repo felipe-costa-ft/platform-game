@@ -25,7 +25,6 @@ class GUI extends Phaser.Scene {
     ourGame.events.on(
       "addScore",
       function () {
-        console.log("emit");
         this.coins += 1;
 
         coinsCounter.setText("c:" + this.coins);

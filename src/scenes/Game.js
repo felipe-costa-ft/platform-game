@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import Hero from "../entities/Hero";
 import Coin from "../entities/Coin";
 import Enemy from "../entities/Enemy";
+import Collider from "../utils/Collider";
 
 class Game extends Phaser.Scene {
   constructor() {
@@ -56,10 +57,15 @@ class Game extends Phaser.Scene {
       frameHeight: 32,
     });
 
-    // Enemy aseets
+    // Enemy assets
     this.load.spritesheet("enemy-standing-sheet", "assets/enemy/standing.png", {
-      frameWidth: 32,
-      frameHeight: 32,
+      frameWidth: 16,
+      frameHeight: 16,
+    });
+
+    this.load.spritesheet("enemy-running-sheet", "assets/enemy/running.png", {
+      frameWidth: 16,
+      frameHeight: 16,
     });
 
     // Pickups assets
@@ -78,6 +84,7 @@ class Game extends Phaser.Scene {
   create() {
     this.cursorKeys = this.input.keyboard.createCursorKeys();
 
+    // Hero animations
     this.anims.create({
       key: "hero-idle",
       frames: this.anims.generateFrameNumbers("hero-idle-sheet"),
@@ -102,6 +109,15 @@ class Game extends Phaser.Scene {
       frames: this.anims.generateFrameNumbers("hero-falling-sheet"),
     });
 
+    // Enemy animations
+    this.anims.create({
+      key: "enemy-running",
+      frames: this.anims.generateFrameNumbers("enemy-running-sheet"),
+      frameRate: 4,
+      repeat: -1,
+    });
+
+    // Pickups animations
     this.anims.create({
       key: "coin",
       frames: this.anims.generateFrameNumbers("coin-sheet"),
@@ -149,9 +165,18 @@ class Game extends Phaser.Scene {
   }
 
   addEnemies() {
-    this.map.getObjectLayer("enemies").objects.forEach((enemy) => {
-      console.log(enemy);
-      new Enemy(this, enemy.x, enemy.y);
+    this.colliderGroup = this.physics.add.group({
+      immovable: true,
+      allowGravity: false,
+    });
+
+    this.map.getObjectLayer("enemies").objects.forEach((object) => {
+      console.log(object);
+      if (object.type === "enemy") {
+        const enemy = new Enemy(this, object.x, object.y);
+      }
+      if (object.type === "collider")
+        this.colliderGroup.add(new Collider(this, object.x, object.y));
     });
   }
 
