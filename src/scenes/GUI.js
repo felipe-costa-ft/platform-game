@@ -50,9 +50,11 @@ class GUI extends Phaser.Scene {
     ourGame.events.on(
       "hurt",
       function () {
-        this.lifes -= 1;
-
-        if (this.lifes >= 0) this.healthIndicator[this.lifes].setFrame(1);
+        if (this.lifes > 0 && ourGame.hero.hurted === false) {
+          this.lifes -= 1;
+          this.healthIndicator[this.lifes].setFrame(1);
+          ourGame.hurtSound.play();
+        }
       },
       this
     );

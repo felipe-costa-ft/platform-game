@@ -57,6 +57,11 @@ class Game extends Phaser.Scene {
       frameHeight: 32,
     });
 
+    this.load.spritesheet("hero-hurting-sheet", "assets/hero/hurt.png", {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+
     // Enemy assets
     this.load.spritesheet("enemy-standing-sheet", "assets/enemy/standing.png", {
       frameWidth: 16,
@@ -79,6 +84,7 @@ class Game extends Phaser.Scene {
 
     this.load.audio("jump", "assets/sound-effects/jump.wav");
     this.load.audio("pickup_coin", "assets/sound-effects/pickup_coin.wav");
+    this.load.audio("hurt", "assets/sound-effects/hurt.ogg");
   }
 
   create() {
@@ -109,6 +115,11 @@ class Game extends Phaser.Scene {
       frames: this.anims.generateFrameNumbers("hero-falling-sheet"),
     });
 
+    this.anims.create({
+      key: "hero-hurting",
+      frames: this.anims.generateFrameNumbers("hero-hurting-sheet"),
+    });
+
     // Enemy animations
     this.anims.create({
       key: "enemy-running",
@@ -125,8 +136,10 @@ class Game extends Phaser.Scene {
       repeat: -1,
     });
 
+    // Sounds
     this.jumpSound = this.sound.add("jump", { loop: false });
     this.pickupCoinSound = this.sound.add("pickup_coin", { loop: false });
+    this.hurtSound = this.sound.add("hurt", { loop: false });
 
     this.sceneMusic = this.sound.add("grasslands", { loop: true });
     this.sceneMusic.play();

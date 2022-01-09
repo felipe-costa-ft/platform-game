@@ -21,6 +21,13 @@ class Hero extends Phaser.GameObjects.Sprite {
 
     this.setupAnimations();
     this.setupMovement();
+
+    this.hurted = false;
+
+    scene.events.on("hurt", () => {
+      this.hurted = true;
+      setTimeout(() => (this.hurted = false), 1000);
+    });
   }
 
   setupMovement() {
@@ -28,13 +35,25 @@ class Hero extends Phaser.GameObjects.Sprite {
       init: "standing",
       transitions: [
         { name: "jump", from: "standing", to: "jumping" },
-        { name: "touchdown", from: ["jumping", "falling"], to: "standing" },
+        {
+          name: "touchdown",
+          from: ["jumping", "falling", "hurting"],
+          to: "standing",
+        },
         { name: "fall", from: "standing", to: "falling" },
+        {
+          name: "hurt",
+          from: ["standing", "jumping", "falling"],
+          to: "hurting",
+        },
       ],
       methods: {
         onJump: () => {
           this.emit("jump");
           this.body.setVelocityY(-320);
+        },
+        onHurt: () => {
+          this.body.setVelocityY(-270);
         },
       },
     });
@@ -44,10 +63,13 @@ class Hero extends Phaser.GameObjects.Sprite {
         return this.input.didPressJump;
       },
       touchdown: () => {
-        return this.body.onFloor();
+        return this.body.onFloor() && !this.hurted;
       },
       fall: () => {
-        return !this.body.onFloor();
+        return !this.body.onFloor() && !this.hurted;
+      },
+      hurt: () => {
+        return this.hurted;
       },
     };
   }
@@ -56,10 +78,15 @@ class Hero extends Phaser.GameObjects.Sprite {
     this.animState = new StateMachine({
       init: "idle",
       transitions: [
-        { name: "idle", from: ["falling", "running"], to: "idle" },
+        { name: "idle", from: ["hurting", "falling", "running"], to: "idle" },
         { name: "run", from: ["idle", "falling"], to: "running" },
         { name: "jump", from: ["running", "idle"], to: "jumping" },
         { name: "fall", from: ["idle", "jumping", "running"], to: "falling" },
+        {
+          name: "hurt",
+          from: ["idle", "jumping", "running", "falling"],
+          to: "hurting",
+        },
       ],
       methods: {
         onEnterState: (lifecycle) => {
@@ -70,7 +97,9 @@ class Hero extends Phaser.GameObjects.Sprite {
 
     this.animsPredicates = {
       idle: () => {
-        return this.body.onFloor() && this.body.velocity.x === 0;
+        return (
+          this.body.onFloor() && this.body.velocity.x === 0 && !this.hurted
+        );
       },
       run: () => {
         return (
@@ -79,10 +108,13 @@ class Hero extends Phaser.GameObjects.Sprite {
         );
       },
       jump: () => {
-        return this.body.velocity.y < 0;
+        return this.body.velocity.y < 0 && !this.hurted;
       },
       fall: () => {
-        return this.body.velocity.y > 0;
+        return this.body.velocity.y > 0 && !this.hurted;
+      },
+      hurt: () => {
+        return this.hurted;
       },
     };
   }
@@ -92,10 +124,10 @@ class Hero extends Phaser.GameObjects.Sprite {
 
     this.input.didPressJump = Phaser.Input.Keyboard.JustDown(this.keys.up);
 
-    if (this.keys.left.isDown) {
+    if (this.keys.left.isDown && !this.hurted) {
       this.body.setAccelerationX(-1000);
       this.setFlipX(true);
-    } else if (this.keys.right.isDown) {
+    } else if (this.keys.right.isDown && !this.hurted) {
       this.body.setAccelerationX(1000);
       this.setFlipX(false);
     } else {
